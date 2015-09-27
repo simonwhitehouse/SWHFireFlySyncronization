@@ -14,6 +14,7 @@ class SWHFireFlyViewController: UIViewController {
     
     static let NumberOfFlysPerRow = 10
     static let SensitivePeriod = 7.0
+    static let FlyHeight = ((UIScreen.mainScreen().bounds.size.width - 40) - CGFloat((SWHFireFlyViewController.NumberOfFlysPerRow - 1) * 5)) / CGFloat(SWHFireFlyViewController.NumberOfFlysPerRow)
     
     @IBOutlet weak var flyContainer: UIView! {
         didSet {
@@ -32,7 +33,7 @@ class SWHFireFlyViewController: UIViewController {
         var startOriginX: CGFloat = 0.0
         var startOriginY: CGFloat = 0.0
         
-        let flyHeight = ((UIScreen.mainScreen().bounds.size.width - 40) - CGFloat((SWHFireFlyViewController.NumberOfFlysPerRow - 1) * 5)) / CGFloat(SWHFireFlyViewController.NumberOfFlysPerRow)
+        let flyHeight = SWHFireFlyViewController.FlyHeight
         
         for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
             flies.append([SWHFlyView]())
@@ -133,10 +134,14 @@ protocol SWHFlyViewDelegate {
 class SWHFlyView : UIView {
     var flashTimer: NSTimer?
     
+    var flashView: UIView?
+    var label: UILabel?
+    
     var delegate: SWHFlyViewDelegate?
     
     var ellapsedTimer: NSTimeInterval = 0.0 {
         didSet {
+            label?.text = "\(Int(ellapsedTimer))"
             if ellapsedTimer >= 9.9 {
                 flash()
             }
@@ -144,8 +149,23 @@ class SWHFlyView : UIView {
     }
     
     func configure() {
-        backgroundColor = UIColor.yellowColor()
-        alpha = 0
+        
+        if flashView == nil {
+            flashView = UIView(frame: CGRectMake(0, 0, SWHFireFlyViewController.FlyHeight, SWHFireFlyViewController.FlyHeight))
+            flashView?.backgroundColor = UIColor.yellowColor()
+            flashView?.alpha = 0
+            addSubview(flashView!)
+        }
+        
+        if label == nil {
+            label = UILabel(frame: CGRectMake(0, 0, SWHFireFlyViewController.FlyHeight, SWHFireFlyViewController.FlyHeight))
+            label?.text = "0"
+            label?.textAlignment = NSTextAlignment.Center
+            label?.textColor = UIColor.whiteColor()
+            addSubview(label!)
+        }
+        
+        backgroundColor = UIColor.blackColor()
         
         ellapsedTimer += (9 - 0) * Double(Double(arc4random()) / Double(UInt32.max)) + 0
         
@@ -161,9 +181,9 @@ class SWHFlyView : UIView {
         delegate?.fireFlyFlashed(self)
         
         UIView.animateKeyframesWithDuration(0.1, delay: 0, options: UIViewKeyframeAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
-            self.alpha = 1
+            self.flashView!.alpha = 1
             }) { (finish) -> Void in
-                self.alpha = 0
+                self.flashView!.alpha = 0
                 self.resetTimer()
         }
     }
