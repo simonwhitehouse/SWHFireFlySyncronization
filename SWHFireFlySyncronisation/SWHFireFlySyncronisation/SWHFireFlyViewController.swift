@@ -59,9 +59,25 @@ class SWHFireFlyViewController: UIViewController {
 class SWHFlyView : UIView {
     var flashTimer: NSTimer?
     
+    var ellapsedTimer: NSTimeInterval = 0.0 {
+        didSet {
+            if ellapsedTimer >= 9.9 {
+                flash()
+            }
+        }
+    }
+    
     func configure() {
         backgroundColor = UIColor.yellowColor()
         alpha = 0
+        
+        ellapsedTimer += (9 - 0) * Double(Double(arc4random()) / Double(UInt32.max)) + 0
+        
+        flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerTicked:", userInfo: nil, repeats: true)
+    }
+    
+    func timerTicked(timer: NSTimer) {
+        ellapsedTimer += timer.timeInterval
     }
     
     func flash() {
@@ -74,6 +90,8 @@ class SWHFlyView : UIView {
     }
     
     func resetTimer() {
-        
+        flashTimer?.invalidate()
+        ellapsedTimer = 0.0
+        flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerTicked:", userInfo: nil, repeats: true)
     }
 }
