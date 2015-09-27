@@ -13,6 +13,7 @@ class SWHFireFlyViewController: UIViewController {
     var flies = Array<Array<SWHFlyView>>()
     
     static let NumberOfFlysPerRow = 10
+    static let SensitivePeriod = 7.0
     
     @IBOutlet weak var flyContainer: UIView! {
         didSet {
@@ -58,25 +59,25 @@ extension SWHFireFlyViewController: SWHFlyViewDelegate {
         
         for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
             for var x = 0; x < SWHFireFlyViewController.NumberOfFlysPerRow; x++ {
-                var arrayFly = flies[y][x]
+                let arrayFly = flies[y][x]
                 if arrayFly == fly {
                     
                     if y > 0 {
                         if x > 0 {
-                            var nextFly = flies[y-1][x-1]
-                            if nextFly.ellapsedTimer < 6.0 {
+                            let nextFly = flies[y-1][x-1]
+                            if nextFly.ellapsedTimer < SWHFireFlyViewController.SensitivePeriod {
                                 nextFly.resetTimer()
                             }
                         }
                         
-                        var nextFly = flies[y-1][x]
-                        if nextFly.ellapsedTimer < 6.0 {
+                        let nextFly = flies[y-1][x]
+                        if nextFly.ellapsedTimer < SWHFireFlyViewController.SensitivePeriod {
                             nextFly.resetTimer()
                         }
                         
                         if x+1 <  SWHFireFlyViewController.NumberOfFlysPerRow - 1  {
-                            var nextFly = flies[y-1][x+1]
-                            if nextFly.ellapsedTimer < 6.0 {
+                            let nextFly = flies[y-1][x+1]
+                            if nextFly.ellapsedTimer < SWHFireFlyViewController.SensitivePeriod {
                                 nextFly.resetTimer()
                             }
                         }
@@ -85,39 +86,40 @@ extension SWHFireFlyViewController: SWHFlyViewDelegate {
                     if y+1 < SWHFireFlyViewController.NumberOfFlysPerRow - 1 {
                         
                         if x+1 <  SWHFireFlyViewController.NumberOfFlysPerRow - 1  {
-                            var nextFly = flies[y+1][x+1]
-                            if nextFly.ellapsedTimer < 6.0 {
+                            let nextFly = flies[y+1][x+1]
+                            if nextFly.ellapsedTimer < SWHFireFlyViewController.SensitivePeriod {
                                 nextFly.resetTimer()
                             }
                         }
                         
-                        var nextFly = flies[y+1][x]
-                        if nextFly.ellapsedTimer < 6.0 {
+                        let nextFly = flies[y+1][x]
+                        if nextFly.ellapsedTimer < SWHFireFlyViewController.SensitivePeriod {
                             nextFly.resetTimer()
                         }
                         
                         if x-1 > 0 {
-                            var nextFly = flies[y+1][x-1]
-                            if nextFly.ellapsedTimer < 6.0 {
+                            let nextFly = flies[y+1][x-1]
+                            if nextFly.ellapsedTimer < SWHFireFlyViewController.SensitivePeriod {
                                 nextFly.resetTimer()
                             }
                         }
                     }
                     
                     if x+1 < SWHFireFlyViewController.NumberOfFlysPerRow - 1  {
-                        var nextFly = flies[y][x+1]
-                        if nextFly.ellapsedTimer < 6.0 {
+                        let nextFly = flies[y][x+1]
+                        if nextFly.ellapsedTimer < SWHFireFlyViewController.SensitivePeriod {
                             nextFly.resetTimer()
                         }
                     }
                     
                     if x-1 > 0 {
-                        var nextFly = flies[y][x-1]
-                        if nextFly.ellapsedTimer < 6.0 {
+                        let nextFly = flies[y][x-1]
+                        if nextFly.ellapsedTimer < SWHFireFlyViewController.SensitivePeriod {
                             nextFly.resetTimer()
                         }
                     }
                     
+                    return // return here as we have found index
                 }
             }
         }
