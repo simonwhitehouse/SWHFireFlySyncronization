@@ -10,7 +10,7 @@ import UIKit
 
 class SWHFireFlyViewController: UIViewController {
     
-    var flies = [SWHFlyView]()
+    var flies = Array<Array<SWHFlyView>>()
     
     static let NumberOfFlysPerRow = 10
     
@@ -24,16 +24,7 @@ class SWHFireFlyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        
         buildFlies()
-        
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func buildFlies() {
@@ -43,21 +34,104 @@ class SWHFireFlyViewController: UIViewController {
         let flyHeight = ((UIScreen.mainScreen().bounds.size.width - 40) - CGFloat((SWHFireFlyViewController.NumberOfFlysPerRow - 1) * 5)) / CGFloat(SWHFireFlyViewController.NumberOfFlysPerRow)
         
         for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
+            flies.append([SWHFlyView]())
             for var x = 0; x < SWHFireFlyViewController.NumberOfFlysPerRow; x++ {
                 let newFly = SWHFlyView(frame: CGRectMake(startOriginX, startOriginY, flyHeight, flyHeight))
                 flyContainer.addSubview(newFly)
                 newFly.configure()
                 startOriginX += flyHeight + 5
+                newFly.delegate = self
+                flies[y].append(newFly)
             }
+            
             startOriginX = 0
             startOriginY += flyHeight + 5
         }
     }
     
+    
+    
+}
+
+extension SWHFireFlyViewController: SWHFlyViewDelegate {
+    func fireFlyFlashed(fly: SWHFlyView) {
+        
+        for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
+            for var x = 0; x < SWHFireFlyViewController.NumberOfFlysPerRow; x++ {
+                var arrayFly = flies[y][x]
+                if arrayFly == fly {
+                    
+                    if y > 0 {
+                        if x > 0 {
+                            var nextFly = flies[y-1][x-1]
+                            if nextFly.ellapsedTimer < 6.0 {
+                                nextFly.resetTimer()
+                            }
+                        }
+                        
+                        var nextFly = flies[y-1][x]
+                        if nextFly.ellapsedTimer < 6.0 {
+                            nextFly.resetTimer()
+                        }
+                        
+                        if x+1 <  SWHFireFlyViewController.NumberOfFlysPerRow - 1  {
+                            var nextFly = flies[y-1][x+1]
+                            if nextFly.ellapsedTimer < 6.0 {
+                                nextFly.resetTimer()
+                            }
+                        }
+                    }
+                    
+                    if y+1 < SWHFireFlyViewController.NumberOfFlysPerRow - 1 {
+                        
+                        if x+1 <  SWHFireFlyViewController.NumberOfFlysPerRow - 1  {
+                            var nextFly = flies[y+1][x+1]
+                            if nextFly.ellapsedTimer < 6.0 {
+                                nextFly.resetTimer()
+                            }
+                        }
+                        
+                        var nextFly = flies[y+1][x]
+                        if nextFly.ellapsedTimer < 6.0 {
+                            nextFly.resetTimer()
+                        }
+                        
+                        if x-1 > 0 {
+                            var nextFly = flies[y+1][x-1]
+                            if nextFly.ellapsedTimer < 6.0 {
+                                nextFly.resetTimer()
+                            }
+                        }
+                    }
+                    
+                    if x+1 < SWHFireFlyViewController.NumberOfFlysPerRow - 1  {
+                        var nextFly = flies[y][x+1]
+                        if nextFly.ellapsedTimer < 6.0 {
+                            nextFly.resetTimer()
+                        }
+                    }
+                    
+                    if x-1 > 0 {
+                        var nextFly = flies[y][x-1]
+                        if nextFly.ellapsedTimer < 6.0 {
+                            nextFly.resetTimer()
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+}
+
+protocol SWHFlyViewDelegate {
+    func fireFlyFlashed(fly: SWHFlyView)
 }
 
 class SWHFlyView : UIView {
     var flashTimer: NSTimer?
+    
+    var delegate: SWHFlyViewDelegate?
     
     var ellapsedTimer: NSTimeInterval = 0.0 {
         didSet {
@@ -81,6 +155,9 @@ class SWHFlyView : UIView {
     }
     
     func flash() {
+        
+        delegate?.fireFlyFlashed(self)
+        
         UIView.animateKeyframesWithDuration(0.1, delay: 0, options: UIViewKeyframeAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
             self.alpha = 1
             }) { (finish) -> Void in
