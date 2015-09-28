@@ -12,9 +12,17 @@ class SWHFireFlyViewController: UIViewController {
     
     var flies = Array<Array<SWHFlyView>>()
     
+    var ellapsedTimer: NSTimer?
+    var ellapsedTime: Double = 0.0 {
+        didSet  {
+            timeLabel.text = "\(ellapsedTime)"
+        }
+    }
+    
+    @IBOutlet weak var timeLabel: UILabel!
     static let NumberOfFlysPerRow = 10
     static let SensitivePeriod = 7.0
-    static let FlyHeight = ((UIScreen.mainScreen().bounds.size.width - 40) - CGFloat((SWHFireFlyViewController.NumberOfFlysPerRow - 1) * 5)) / CGFloat(SWHFireFlyViewController.NumberOfFlysPerRow)
+    static let FlyHeight = ((300) - CGFloat((SWHFireFlyViewController.NumberOfFlysPerRow - 1) * 5)) / CGFloat(SWHFireFlyViewController.NumberOfFlysPerRow)
     
     @IBOutlet weak var flyContainer: UIView! {
         didSet {
@@ -48,10 +56,30 @@ class SWHFireFlyViewController: UIViewController {
             
             startOriginX = 0
             startOriginY += flyHeight + 5
+            
         }
+        
+        ellapsedTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerTicked:", userInfo: nil, repeats: true)
+    }
+    
+    func timerTicked(timer: NSTimer) {
+        ellapsedTime += 0.1
     }
     
     
+    @IBAction func resetButton(sender: UIButton) {
+        for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
+
+            for var x = 0; x < SWHFireFlyViewController.NumberOfFlysPerRow; x++ {
+                let fly = flies[y][x]
+                fly.resetTimer()
+            }
+        }
+        
+        flies = Array<Array<SWHFlyView>>()
+        ellapsedTime = 0.0
+        buildFlies()
+    }
     
 }
 

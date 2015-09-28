@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -19,21 +18,64 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tqV-wn-zz9">
-                                <rect key="frame" x="20" y="20" width="560" height="560"/>
+                                <rect key="frame" x="150" y="150" width="300" height="300"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="tqV-wn-zz9" secondAttribute="height" multiplier="1:1" id="JLA-nQ-t2d"/>
+                                    <constraint firstAttribute="height" constant="300" id="PXg-hf-eQB"/>
+                                    <constraint firstAttribute="width" constant="300" id="j6G-wW-Br2"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fire Fly Sync" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7M-yx-8bo">
+                                <rect key="frame" x="251" y="37" width="97.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ellapsed Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E6z-cd-URL">
+                                <rect key="frame" x="20" y="519" width="107" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="LLN-0L-hS3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Abl-6v-Jiv">
+                                <rect key="frame" x="277" y="562" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="EqC-wA-Jgj"/>
+                                    <constraint firstAttribute="width" constant="46" id="aYD-vb-3w2"/>
+                                </constraints>
+                                <state key="normal" title="Reset">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1do-iH-3yX"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJY-9U-yn2">
+                                <rect key="frame" x="554.5" y="519.5" width="25.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="tqV-wn-zz9" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Mim-1K-pCf"/>
-                            <constraint firstItem="tqV-wn-zz9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Nd2-fo-Kh0"/>
-                            <constraint firstItem="tqV-wn-zz9" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="btp-LW-LJC"/>
+                            <constraint firstItem="E6z-cd-URL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="2RE-K0-s6h"/>
+                            <constraint firstItem="RJY-9U-yn2" firstAttribute="centerY" secondItem="E6z-cd-URL" secondAttribute="centerY" id="3TL-vw-osa"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="E6z-cd-URL" secondAttribute="bottom" constant="60" id="4RP-Ag-aHv"/>
+                            <constraint firstItem="Abl-6v-Jiv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EfP-uC-MqI"/>
+                            <constraint firstItem="tqV-wn-zz9" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="J3E-P9-vRU"/>
+                            <constraint firstItem="h7M-yx-8bo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UI1-iW-KKI"/>
+                            <constraint firstItem="RJY-9U-yn2" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="VFn-IM-lhf"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Abl-6v-Jiv" secondAttribute="bottom" constant="8" id="YgC-Gp-60g"/>
+                            <constraint firstItem="tqV-wn-zz9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cd9-dv-3Os"/>
+                            <constraint firstItem="h7M-yx-8bo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="17" id="kfl-3u-rwQ"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="flyContainer" destination="tqV-wn-zz9" id="yj3-9g-h20"/>
+                        <outlet property="timeLabel" destination="RJY-9U-yn2" id="PYm-kK-TIe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
