@@ -53,28 +53,47 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJY-9U-yn2">
-                                <rect key="frame" x="554.5" y="519.5" width="25.5" height="20.5"/>
+                                <rect key="frame" x="554" y="519" width="25.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Fly counter labels" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NY3-eE-sRl">
+                                <rect key="frame" x="20" y="483.5" width="181.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q9A-La-m8F">
+                                <rect key="frame" x="542" y="478" width="51" height="31"/>
+                                <color key="onTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="thumbTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="showFlyCounterLabelSwitchValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="ZcN-qP-Zqv"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="E6z-cd-URL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="2RE-K0-s6h"/>
                             <constraint firstItem="RJY-9U-yn2" firstAttribute="centerY" secondItem="E6z-cd-URL" secondAttribute="centerY" id="3TL-vw-osa"/>
+                            <constraint firstItem="NY3-eE-sRl" firstAttribute="centerY" secondItem="Q9A-La-m8F" secondAttribute="centerY" id="3hb-Wt-zvt"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="E6z-cd-URL" secondAttribute="bottom" constant="60" id="4RP-Ag-aHv"/>
                             <constraint firstItem="Abl-6v-Jiv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EfP-uC-MqI"/>
                             <constraint firstItem="tqV-wn-zz9" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="J3E-P9-vRU"/>
                             <constraint firstItem="h7M-yx-8bo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UI1-iW-KKI"/>
                             <constraint firstItem="RJY-9U-yn2" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="VFn-IM-lhf"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Abl-6v-Jiv" secondAttribute="bottom" constant="8" id="YgC-Gp-60g"/>
+                            <constraint firstAttribute="trailing" secondItem="Q9A-La-m8F" secondAttribute="trailing" constant="9" id="Z5Z-Ne-5dr"/>
                             <constraint firstItem="tqV-wn-zz9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cd9-dv-3Os"/>
                             <constraint firstItem="h7M-yx-8bo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="17" id="kfl-3u-rwQ"/>
+                            <constraint firstItem="NY3-eE-sRl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="sqB-1J-zyc"/>
+                            <constraint firstItem="RJY-9U-yn2" firstAttribute="top" secondItem="Q9A-La-m8F" secondAttribute="bottom" constant="10" id="uKb-Tg-lBE"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="flyContainer" destination="tqV-wn-zz9" id="yj3-9g-h20"/>
+                        <outlet property="showFlyCounterLabelSwitch" destination="Q9A-La-m8F" id="poj-sg-lhl"/>
                         <outlet property="timeLabel" destination="RJY-9U-yn2" id="PYm-kK-TIe"/>
                     </connections>
                 </viewController>

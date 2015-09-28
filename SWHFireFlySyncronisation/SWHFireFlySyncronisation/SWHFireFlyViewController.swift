@@ -15,10 +15,11 @@ class SWHFireFlyViewController: UIViewController {
     var ellapsedTimer: NSTimer?
     var ellapsedTime: Double = 0.0 {
         didSet  {
-            timeLabel.text = "\(ellapsedTime)"
+            timeLabel.text = "\(Int(ellapsedTime * 100) / 100)"
         }
     }
     
+    @IBOutlet weak var showFlyCounterLabelSwitch: UISwitch!
     @IBOutlet weak var timeLabel: UILabel!
     static let NumberOfFlysPerRow = 10
     static let SensitivePeriod = 7.0
@@ -81,6 +82,16 @@ class SWHFireFlyViewController: UIViewController {
         buildFlies()
     }
     
+    @IBAction func showFlyCounterLabelSwitchValueChanged(sender: AnyObject) {
+        showFlyCounterLabelSwitch.setOn(showFlyCounterLabelSwitch.on, animated: true)
+        
+        for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
+            for var x = 0; x < SWHFireFlyViewController.NumberOfFlysPerRow; x++ {
+                let fly = flies[y][x]
+                fly.label?.hidden = !showFlyCounterLabelSwitch.on
+            }
+        }
+    }
 }
 
 extension SWHFireFlyViewController: SWHFlyViewDelegate {
