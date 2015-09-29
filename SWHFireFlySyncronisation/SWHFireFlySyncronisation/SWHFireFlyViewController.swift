@@ -114,7 +114,7 @@ class SWHFireFlyViewController: UIViewController {
 
 extension SWHFireFlyViewController: SWHFlyViewDelegate {
     
-    
+    /// updates the neighbouring flys when one flashes
     func fireFlyFlashed(fly: SWHFlyView) {
         
         for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
@@ -186,18 +186,27 @@ extension SWHFireFlyViewController: SWHFlyViewDelegate {
     }
 }
 
+/// shw fly view delegate - fire fly flashed to update neighbours
 protocol SWHFlyViewDelegate {
     func fireFlyFlashed(fly: SWHFlyView)
 }
 
+/// simple view that controls the fly state
 class SWHFlyView : UIView {
+    
+    /// timer for the fly to flash
     var flashTimer: NSTimer?
     
+    /// view that goes to yellow when it flashes
     var flashView: UIView?
+    
+    /// labels show value between 0 and 10
     var label: UILabel?
     
+    /// delegate
     var delegate: SWHFlyViewDelegate?
     
+    /// ellapsed timer - updates the label and tells the view to flash when reaches 10
     var ellapsedTimer: NSTimeInterval = 0.0 {
         didSet {
             label?.text = "\(Int(ellapsedTimer))"
@@ -207,6 +216,7 @@ class SWHFlyView : UIView {
         }
     }
     
+    /// configures the view and starts the timer
     func configure() {
         
         if flashView == nil {
@@ -231,12 +241,13 @@ class SWHFlyView : UIView {
         flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerTicked:", userInfo: nil, repeats: true)
     }
     
+    /// timer ticked - updates ellpased timer
     func timerTicked(timer: NSTimer) {
         ellapsedTimer += timer.timeInterval
     }
     
+    /// flash - animation and alerts delegate
     func flash() {
-        
         delegate?.fireFlyFlashed(self)
         
         UIView.animateKeyframesWithDuration(0.1, delay: 0, options: UIViewKeyframeAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
@@ -247,6 +258,7 @@ class SWHFlyView : UIView {
         }
     }
     
+    /// resets timer
     func resetTimer() {
         flashTimer?.invalidate()
         ellapsedTimer = 0.0
