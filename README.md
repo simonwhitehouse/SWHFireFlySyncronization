@@ -8,7 +8,7 @@ Simplem iOS application that shows the process of fire fly syncronization
 
 To use the iOS Application simply download the source code and run the project.
 
-![alt tag](https://cdn.pbrd.co/images/YBYvRAx.png)
+![Example](https://gifs.com/gif/vp3ZbZ)
 
 ## License
 
