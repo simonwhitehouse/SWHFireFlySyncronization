@@ -10,21 +10,35 @@ import UIKit
 
 class SWHFireFlyViewController: UIViewController {
     
+    /// array that holds the flys
     var flies = Array<Array<SWHFlyView>>()
     
+    /// ellpased timer
     var ellapsedTimer: NSTimer?
+    
+    /// time as double - sets the time label text
     var ellapsedTime: Double = 0.0 {
         didSet  {
             timeLabel.text = "\(Int(ellapsedTime * 100) / 100)"
         }
     }
     
+    /// switch that determines whether or not to show fly count labels
     @IBOutlet weak var showFlyCounterLabelSwitch: UISwitch!
+    
+    /// label to show ellpased time
     @IBOutlet weak var timeLabel: UILabel!
+    
+    /// number of flys per row
     static let NumberOfFlysPerRow = 10
+    
+    /// sentive period
     static let SensitivePeriod = 7.0
+    
+    /// size of each fly
     static let FlyHeight = ((300) - CGFloat((SWHFireFlyViewController.NumberOfFlysPerRow - 1) * 5)) / CGFloat(SWHFireFlyViewController.NumberOfFlysPerRow)
     
+    /// holds the fly array
     @IBOutlet weak var flyContainer: UIView! {
         didSet {
             flyContainer.layer.borderColor = UIColor.whiteColor().CGColor
@@ -32,12 +46,14 @@ class SWHFireFlyViewController: UIViewController {
         }
     }
     
+    /// view did load - sets up the fly array and starts
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         buildFlies()
     }
     
+    /// creates a two dimensional array of flys and triggers the timers
     func buildFlies() {
         var startOriginX: CGFloat = 0.0
         var startOriginY: CGFloat = 0.0
@@ -63,11 +79,12 @@ class SWHFireFlyViewController: UIViewController {
         ellapsedTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerTicked:", userInfo: nil, repeats: true)
     }
     
+    /// increased the ellapsed time
     func timerTicked(timer: NSTimer) {
         ellapsedTime += 0.1
     }
     
-    
+    /// resets the fly array and timers
     @IBAction func resetButton(sender: UIButton) {
         for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
 
@@ -82,6 +99,7 @@ class SWHFireFlyViewController: UIViewController {
         buildFlies()
     }
     
+    /// turns on/off the fly counters
     @IBAction func showFlyCounterLabelSwitchValueChanged(sender: AnyObject) {
         showFlyCounterLabelSwitch.setOn(showFlyCounterLabelSwitch.on, animated: true)
         
@@ -95,6 +113,8 @@ class SWHFireFlyViewController: UIViewController {
 }
 
 extension SWHFireFlyViewController: SWHFlyViewDelegate {
+    
+    
     func fireFlyFlashed(fly: SWHFlyView) {
         
         for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
