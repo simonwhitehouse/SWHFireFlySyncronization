@@ -14,7 +14,7 @@ class SWHFireFlyViewController: UIViewController {
     var flies = Array<Array<SWHFlyView>>()
     
     /// ellpased timer
-    var ellapsedTimer: NSTimer?
+    var ellapsedTimer: Timer?
     
     /// time as double - sets the time label text
     var ellapsedTime: Double = 0.0 {
@@ -41,7 +41,7 @@ class SWHFireFlyViewController: UIViewController {
     /// holds the fly array
     @IBOutlet weak var flyContainer: UIView! {
         didSet {
-            flyContainer.layer.borderColor = UIColor.whiteColor().CGColor
+            flyContainer.layer.borderColor = UIColor.white.cgColor
             flyContainer.layer.borderWidth = 2
         }
     }
@@ -60,10 +60,10 @@ class SWHFireFlyViewController: UIViewController {
         
         let flyHeight = SWHFireFlyViewController.FlyHeight
         
-        for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
+        for y in 0..<SWHFireFlyViewController.NumberOfFlysPerRow {
             flies.append([SWHFlyView]())
-            for var x = 0; x < SWHFireFlyViewController.NumberOfFlysPerRow; x++ {
-                let newFly = SWHFlyView(frame: CGRectMake(startOriginX, startOriginY, flyHeight, flyHeight))
+            for x in 0..<SWHFireFlyViewController.NumberOfFlysPerRow {
+                let newFly = SWHFlyView(frame: CGRect(x: startOriginX, y: startOriginY, width: flyHeight, height: flyHeight))
                 flyContainer.addSubview(newFly)
                 newFly.configure()
                 startOriginX += flyHeight + 5
@@ -76,19 +76,19 @@ class SWHFireFlyViewController: UIViewController {
             
         }
         
-        ellapsedTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerTicked:", userInfo: nil, repeats: true)
+        ellapsedTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(timerTicked(timer:)), userInfo: nil, repeats: true)
     }
     
     /// increased the ellapsed time
-    func timerTicked(timer: NSTimer) {
+    @objc
+    func timerTicked(timer: Timer) {
         ellapsedTime += 0.1
     }
     
     /// resets the fly array and timers
     @IBAction func resetButton(sender: UIButton) {
-        for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
-
-            for var x = 0; x < SWHFireFlyViewController.NumberOfFlysPerRow; x++ {
+        for y in 0..<SWHFireFlyViewController.NumberOfFlysPerRow {
+            for x in 0..<SWHFireFlyViewController.NumberOfFlysPerRow {
                 let fly = flies[y][x]
                 fly.resetTimer()
             }
@@ -101,12 +101,11 @@ class SWHFireFlyViewController: UIViewController {
     
     /// turns on/off the fly counters
     @IBAction func showFlyCounterLabelSwitchValueChanged(sender: AnyObject) {
-        showFlyCounterLabelSwitch.setOn(showFlyCounterLabelSwitch.on, animated: true)
-        
-        for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
-            for var x = 0; x < SWHFireFlyViewController.NumberOfFlysPerRow; x++ {
+        showFlyCounterLabelSwitch.setOn(showFlyCounterLabelSwitch.isOn, animated: true)
+        for y in 0..<SWHFireFlyViewController.NumberOfFlysPerRow {
+            for x in 0..<SWHFireFlyViewController.NumberOfFlysPerRow {
                 let fly = flies[y][x]
-                fly.label?.hidden = !showFlyCounterLabelSwitch.on
+                fly.label?.isHidden = !showFlyCounterLabelSwitch.isOn
             }
         }
     }
@@ -116,12 +115,10 @@ extension SWHFireFlyViewController: SWHFlyViewDelegate {
     
     /// updates the neighbouring flys when one flashes
     func fireFlyFlashed(fly: SWHFlyView) {
-        
-        for var y = 0; y < SWHFireFlyViewController.NumberOfFlysPerRow; y++ {
-            for var x = 0; x < SWHFireFlyViewController.NumberOfFlysPerRow; x++ {
+        for y in 0..<SWHFireFlyViewController.NumberOfFlysPerRow {
+            for x in 0..<SWHFireFlyViewController.NumberOfFlysPerRow {
                 let arrayFly = flies[y][x]
                 if arrayFly == fly {
-                    
                     if y > 0 {
                         if x > 0 {
                             let nextFly = flies[y-1][x-1]
@@ -192,10 +189,10 @@ protocol SWHFlyViewDelegate {
 }
 
 /// simple view that controls the fly state
-class SWHFlyView : UIView {
+class SWHFlyView: UIView {
     
     /// timer for the fly to flash
-    var flashTimer: NSTimer?
+    var flashTimer: Timer?
     
     /// view that goes to yellow when it flashes
     var flashView: UIView?
@@ -207,7 +204,7 @@ class SWHFlyView : UIView {
     var delegate: SWHFlyViewDelegate?
     
     /// ellapsed timer - updates the label and tells the view to flash when reaches 10
-    var ellapsedTimer: NSTimeInterval = 0.0 {
+    var ellapsedTimer: TimeInterval = 0.0 {
         didSet {
             label?.text = "\(Int(ellapsedTimer))"
             if ellapsedTimer >= 9.9 {
@@ -220,37 +217,38 @@ class SWHFlyView : UIView {
     func configure() {
         
         if flashView == nil {
-            flashView = UIView(frame: CGRectMake(0, 0, SWHFireFlyViewController.FlyHeight, SWHFireFlyViewController.FlyHeight))
-            flashView?.backgroundColor = UIColor.yellowColor()
+            flashView = UIView(frame: CGRect(x: 0, y: 0, width: SWHFireFlyViewController.FlyHeight, height: SWHFireFlyViewController.FlyHeight))
+            flashView?.backgroundColor = UIColor.yellow
             flashView?.alpha = 0
             addSubview(flashView!)
         }
         
         if label == nil {
-            label = UILabel(frame: CGRectMake(0, 0, SWHFireFlyViewController.FlyHeight, SWHFireFlyViewController.FlyHeight))
+            label = UILabel(frame: CGRect(x: 0, y: 0, width: SWHFireFlyViewController.FlyHeight, height: SWHFireFlyViewController.FlyHeight))
             label?.text = "0"
-            label?.textAlignment = NSTextAlignment.Center
-            label?.textColor = UIColor.whiteColor()
+            label?.textAlignment = NSTextAlignment.center
+            label?.textColor = UIColor.white
             addSubview(label!)
         }
         
-        backgroundColor = UIColor.blackColor()
+        backgroundColor = UIColor.black
         
         ellapsedTimer += (9 - 0) * Double(Double(arc4random()) / Double(UInt32.max)) + 0
         
-        flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerTicked:", userInfo: nil, repeats: true)
+        flashTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(timerTicked(timer:)), userInfo: nil, repeats: true)
     }
     
     /// timer ticked - updates ellpased timer
-    func timerTicked(timer: NSTimer) {
+    @objc
+    func timerTicked(timer: Timer) {
         ellapsedTimer += timer.timeInterval
     }
     
     /// flash - animation and alerts delegate
     func flash() {
-        delegate?.fireFlyFlashed(self)
+        delegate?.fireFlyFlashed(fly: self)
         
-        UIView.animateKeyframesWithDuration(0.1, delay: 0, options: UIViewKeyframeAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
+        UIView.animateKeyframes(withDuration: 0.1, delay: 0, options: .beginFromCurrentState, animations: { () -> Void in
             self.flashView!.alpha = 1
             }) { (finish) -> Void in
                 self.flashView!.alpha = 0
@@ -262,6 +260,6 @@ class SWHFlyView : UIView {
     func resetTimer() {
         flashTimer?.invalidate()
         ellapsedTimer = 0.0
-        flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "timerTicked:", userInfo: nil, repeats: true)
+        flashTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(timerTicked(timer:)), userInfo: nil, repeats: true)
     }
 }
